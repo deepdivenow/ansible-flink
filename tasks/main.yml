@@ -1,0 +1,19 @@
+---
+- import_tasks: install.yml
+  tags: [flink,flink-install]
+
+#- include_role:
+#    name: jmx-exporter
+#  vars:
+#    jmx_exporter_service: 'flink'
+#    jmx_exporter_port: "{{ flink_master_exporter_port }}"
+#  when: flink_master_exporter_enable
+#  tags: [flink,flink-install]
+
+- import_tasks: config.yml
+  tags: [flink,flink-config]
+- import_tasks: service.yml
+  tags: [flink,flink-service]
+
+
+

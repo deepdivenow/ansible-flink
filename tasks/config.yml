@@ -1,0 +1,7 @@
+---
+
+- name: set flink config
+  template:
+    src: "flink-conf.yaml.j2"
+    dest: "{{ flink_install_dir}}/conf/flink-conf.yaml"
+    backup: True

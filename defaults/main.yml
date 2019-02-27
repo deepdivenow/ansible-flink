@@ -1,0 +1,14 @@
+---
+flink_version: 1.7.2
+flink_sha1: '1230a7cb8552c42cf3a51054202417c3ad49322a'
+flink_user: flink
+flink_group: flink
+flink_install_dir: /opt/flink
+flink_link: "https://archive.apache.org/dist/flink/flink-{{ flink_version }}/flink-{{ flink_version }}-bin-scala_2.11.tgz"
+flink_jobmanager_address: 0.0.0.0
+flink_jobmanager_port: 6123
+flink_web_address: 0.0.0.0
+flink_web_port: 8081
+flink_master_exporter_enable: False
+flink_master_exporter_port: 9497
+

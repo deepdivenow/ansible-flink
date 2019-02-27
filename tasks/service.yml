@@ -1,0 +1,9 @@
+---
+- name: copy systemd start scripts
+  template:
+    src: "flink.service.j2"
+    dest: /etc/systemd/system/flink.service
+  notify: restart flink
+
+- name: start flink
+  service: name=flink state=started enabled=yes

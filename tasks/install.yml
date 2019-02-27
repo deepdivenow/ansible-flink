@@ -1,0 +1,45 @@
+---
+- name: Create group flink
+  group: name="{{ flink_group }}" state=present
+
+- name: Create user flink
+  user: name="{{ flink_user }}" group="{{ flink_group }}"
+
+- name: Register flink sha1
+  stat:
+    path: "{{ flink_install_dir }}/lib/flink-dist_2.11-{{ flink_version }}.jar"
+    checksum_algorithm: sha1
+  register: flink_stat
+
+- block:
+    - name: download {{ flink_link }}
+      get_url:
+        url: "{{ flink_link }}"
+        dest: "/tmp/{{ flink_link|basename }}"
+
+    - name: Remove old installation of {{ rolename }}
+      file:
+        path: "{{ flink_install_dir }}"
+        state: absent
+
+    - name: Check work dir | {{ flink_install_dir }}
+      file:
+        path: "{{ flink_install_dir }}"
+        state: directory
+        mode: 0755
+
+    - name: unpack flink
+      unarchive:
+        copy: no
+        src: "/tmp/{{ flink_link|basename }}"
+        dest: "{{ flink_install_dir }}"
+        extra_opts: "--strip-components=1"
+
+    - name: Remove archive {{ flink_link|basename }}
+      file:
+        path: "/tmp/{{ flink_link|basename }}"
+        state: absent
+
+  when: not flink_stat.stat.exists or
+        (flink_stat.stat.checksum is defined and flink_stat.stat.checksum != flink_sha1)
+
